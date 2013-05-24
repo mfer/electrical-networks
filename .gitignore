@@ -15,3 +15,11 @@
 *.exe
 *.out
 *.app
+
+# Temp files
+*.aux
+*.log
+*.nav
+*.snm
+*.toc
+
