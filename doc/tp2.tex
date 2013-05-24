@@ -1,0 +1,318 @@
+\documentclass{beamer}
+\usetheme{Darmstadt}
+\usefonttheme[onlylarge]{structurebold}
+\setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
+\setbeamertemplate{navigation symbols}{}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage[makeroom]{cancel}
+\usepackage{hyperref}
+\usetikzlibrary{arrows}
+\tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+\title[Pesquisa Operacional - Modelagem do Problema da Corrente de Equilíbrio]
+{
+  Pesquisa Operacional - Modelagem do Problema da Corrente de Equilíbrio
+}
+\author[Eduardo, Manassés, Marzo, Thiago]
+{
+  Eduardo~César\inst{1} \and
+  Manassés~Ferreira\inst{1} \and
+  Marzo~Júnior\inst{1} \and
+  Thiago~Linke\inst{1} \and
+}
+\institute[UFMG]
+{
+  \inst{1}
+  Universidade Federal de Minas Gerais, Brasil
+}
+\date[PO 2013]
+{Pesquisa Operacional, 2013}
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+\begin{frame}{Resumo}
+  \tableofcontents
+\end{frame}
+\section{Modelagem}
+  \subsection{O Problema}
+  \begin{frame}[t]{Modelagem da Indústria de Laticínio}
+    \begin{figure}[h!]
+      \centering
+        %%\includegraphics[width=0.6\textwidth]{img/problema.png}
+    \end{figure}
+  \end{frame}
+
+  \begin{frame}[t]{O Problema}{Organizando os dados.}
+    \begin{exampleblock}{}
+      \begin{tabular}{cccc}
+         & leiteP & queijo & iogurte  \\\hline
+        demandaMáxima (kL) & 50 & 35 & 50 \\
+        produçãoMínima (kL) & 50 & - & -\\
+         & & & \\
+        insumo: leite (L/unidade) & 1 & 10 & 2.5  \\
+        lucroUnitario (\$/unidade) & 0.07 & 1.04 & 0.2 \\
+         & & & \\
+        lucro (\$/kL) & 70 & 104 & 80 \\\hline\hline
+        limiteDiário insumo (kL) & \multicolumn{3}{c}{100} \\
+        implicação & \multicolumn{3}{c}{1kg queijo $\rightarrow$  1L iogurte}\\
+         & \multicolumn{3}{c}{4L $\rightarrow$ 1L}
+      \end{tabular}
+    \end{exampleblock}
+    {\tiny
+      $\frac{\$}{kL} = lucro = \frac{lucroUnitario}{insumo: leite} =
+      \frac{\$}{\cancel{unidade}} \frac{\cancel{unidade}}{\cancel{L}} \frac{1000\cancel{L}}{kL}$
+      * Unidades convertidas para kL de insumo básico: o leite.
+    }
+  \end{frame}
+
+  \subsection{O Modelo}
+
+  \begin{frame}[t]{Definições}
+    \begin{block}{Restrições (em kL)}
+      \begin{itemize}
+        \item leiteP + queijo + iogurte $\leq$ 100
+        \item leiteP $\geq$ 50 $\rightarrow$ -leiteP $\leq$ -50
+        \item leiteP $\leq$ 50
+        \item queijo $\leq$ 35
+        \item iogurte $\leq$ 50
+        \item 4 $\times$ iogurte - queijo $\geq$ 0  $\rightarrow$ queijo - 4 $\times$ iogurte $\leq$ 0
+      \end{itemize}
+    \end{block}
+  \end{frame}
+
+  \begin{frame}{Forma matricial}
+    \begin{block}{cotas}
+    \begin{columns}
+      \column{.3\textwidth}
+      $A\colon$
+      \footnotesize
+      \begin{tabular}{ccc}
+        1 &   1 &    1  \\
+       -1 &   0 &    0  \\
+        1 &   0 &    0  \\
+        0 &   1 &    0  \\
+        0 &   0 &    1  \\
+        0 &   1 &   -4
+      \end{tabular}%
+      \column{.6\textwidth}
+      \begin{overprint}
+        Matriz de coeficientes
+      \end{overprint}
+    \end{columns}
+    \end{block}
+
+    \begin{block}{máximo}
+    \begin{columns}
+      \column{.3\textwidth}
+      $b\colon$
+      \footnotesize
+      \begin{tabular}{cccccc}
+        100 & -50 & 50 & 35 & 50 & 0
+      \end{tabular}
+      \column{.6\textwidth}
+      \begin{overprint}
+      \end{overprint}
+    \end{columns}
+    \end{block}
+
+    \begin{equation*}
+      Ax = b
+    \end{equation*}
+
+  \end{frame}
+
+  \begin{frame}[t]{Definições}
+    \begin{block}{Conjuntos}
+      electrical-networkss: $\{leiteP, queijo, iogurte\}$
+
+      Restricoes: $\{r1, r2, r3, r4,r5, r6\}$
+    \end{block}
+    \begin{block}{Variáveis}
+      producao: $\{electrical-networkss\}$
+    \end{block}
+    \begin{block}{Parâmetros}
+      lucro: $\{70, 104, 80\}$
+
+      cotas: $\{Restricoes, electrical-networkss\}$
+
+      maximo: $\{Restricoes\}$
+    \end{block}
+  \end{frame}
+
+  \begin{frame}[t]{Definições}
+    \begin{block}{Objetivo}
+      Maximizar:
+
+      $\sum_{j \in electrical-networkss} lucro[j] \times producao[j]$
+    \end{block}
+    \begin{block}{Restrições}
+      Sujeito a:
+
+      $cotas[i,j] \times producao[j] \leq maximo[i]$
+
+      $\{i \in Restricoes\}, \{j \in electrical-networkss\}$
+    \end{block}
+  \end{frame}
+
+  \begin{frame}{Afinal, qual a melhor escolha?}
+    Saberemos agora \dots
+  \end{frame}
+
+  \subsection{Modelo e dados}
+  \begin{frame}{electrical-networks.mod e electrical-networks.data}
+    \begin{figure}[h!]
+      \centering
+        %\includegraphics[width=1.0\textwidth]{img/glpsol.png}
+    \end{figure}
+  \end{frame}
+  \subsection{Solução}
+  \begin{frame}{electrical-networks.sol}
+    \tiny glpsol --model electrical-networks.mod --data electrical-networks.data --output electrical-networks.sol
+    \begin{figure}[h!]
+      \centering
+        %\includegraphics[width=0.9\textwidth]{img/glpsol2.png}
+    \end{figure}
+  \end{frame}
+
+  \subsection{Modelo e dados do Dual}
+
+  \begin{frame}{Modelo Primal}
+
+    \begin{equation*}
+     \textrm{Max.} Z = \sum_j^n c_jx_j \hspace{1.5cm} \textrm{sujeito a}
+    \end{equation*}
+
+    \begin{equation*}
+     \sum_{j=0}^n a_{ij}x_j \leq b_i  \hspace{1.5cm} (i = 1, 2, 3..., m)
+    \end{equation*}
+
+    \begin{equation*}
+     x_j \geq 0 \hspace{1.5cm} (j = 1, 2, 3..., n)
+    \end{equation*}
+
+  \end{frame}
+
+
+  \begin{frame}{Obtendo o dual}
+    \begin{itemize}[<+->]
+      \item
+        Função objetivo do primal é  maximização, então a do dual é minimização.
+
+      \item
+        Termos constantes das restrições do dual são os coeficientes da função objetiva do primal e vice-versa.
+
+      \item
+        O número de incógnitas do dual ($m$ valores de $y_i$) é igual ao número de restrições do primal.
+
+      \item
+        O número de restrições do dual é igual ao número de incógnitas do primal ($m$ valores de $x_j$).
+
+      \item
+        A matriz de coeficientes do dual é a transposta da matriz de coeficientes do primal.
+    \end{itemize}
+
+
+  \end{frame}
+
+  \begin{frame}{Modelo Dual}
+
+    \begin{equation*}
+     \textrm{Min.} D = \sum_i^m b_iy_j \hspace{1.5cm} \textrm{sujeito a}
+    \end{equation*}
+
+    \begin{equation*}
+     \sum_{i=0}^m a_{ij}y_i \geq c_j  \hspace{1.5cm} (j = 1, 2, 3..., n)
+    \end{equation*}
+
+    \begin{equation*}
+     y_i \geq 0 \hspace{1.5cm} (i = 1, 2, 3..., m)
+    \end{equation*}
+
+  \end{frame}
+
+
+  \begin{frame}{Problema Dual}
+    Função objetivo:
+    \begin{equation*}
+    \textrm{Min.}  D = 100 \times y_1 - 50 \times y_2 + 50 \times y_3 + 35 \times y4 + 50 \times y_5 + 0 \times y_6
+    \end{equation*}
+    Restrições:
+    \begin{tabular}{ccccccc}
+      $y1$ & $-y2$ & $+ y3$ & & & & $\geq$ 70\\
+      $y1$ &  & & $- y4$&  & $+ y6$& $\geq$ 104\\
+      $y1$ &  & & & $+ y5$ & $-4 y6$& $\geq$ 80\\
+    \end{tabular}
+  \end{frame}
+
+  \begin{frame}{electrical-networksDual.mod e electrical-networks.data}
+    \begin{figure}[h!]
+      \centering
+        %%\includegraphics[width=1.0\textwidth]{img/glpsol3.png}
+    \end{figure}
+  \end{frame}
+  \subsection{Solução Dual}
+  \begin{frame}{electrical-networksDual.sol}
+    \tiny glpsol --model electrical-networksDual.mod --data electrical-networksDual.data --output electrical-networksDual.sol
+    \begin{figure}[h!]
+      \centering
+        %%\includegraphics[width=0.9\textwidth]{img/glpsol4.png}
+    \end{figure}
+  \end{frame}
+
+\section{Análise de Sensibilidade}
+  \subsection{Duas Questões sobre Dualidade}
+  \begin{frame}
+    \frametitle<presentation>{Variação de f induzida por b}
+    \begin{description}[<+->]
+      \item [$\Delta f  = y \Delta b$ ] a
+      \item[] b
+    \end{description}
+  \end{frame}
+  \begin{frame}
+    \frametitle<presentation>{Acrescentar variáveis}
+    \begin{description}[<+->]
+      \item[Quarto Produto] c
+      \item[] d
+    \end{description}
+  \end{frame}
+
+
+\section{Conclusões}
+  \begin{frame}
+    \frametitle<presentation>{Conclusões}
+    \begin{itemize}[<+->]
+      \item
+       item 1
+      \item
+       item 2
+      \item
+       item 3
+   \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Dúvidas}
+    \begin{figure}[h!]
+      \centering
+        %%\includegraphics[width=0.5\textwidth]{img/queijo.jpg}
+    \end{figure}
+  \end{frame}
+
+
+
+  \begin{frame}{}
+    Apresentação produzida usando
+    \begin{figure}[h!]
+      \centering
+        \includegraphics[width=0.5\textwidth]{img/latex.png}
+    \end{figure}
+    disponível em \href{https://github.com/mfer/electrical-networks}{goo.gl/1DtLf}
+  \end{frame}
+
+\end{document}
