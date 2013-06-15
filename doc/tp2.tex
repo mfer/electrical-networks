@@ -3,15 +3,30 @@
 \usefonttheme[onlylarge]{structurebold}
 \setbeamerfont*{frametitle}{size=\normalsize,series=\bfseries}
 \setbeamertemplate{navigation symbols}{}
+\usepackage{tikz}
+\usepackage{circuitikz}
 \usepackage[english]{babel}
 \usepackage[latin1]{inputenc}
 \usepackage{times}
 \usepackage[T1]{fontenc}
-\usepackage{tikz}
+
 \usepackage[makeroom]{cancel}
 \usepackage{hyperref}
 \usetikzlibrary{arrows}
 \tikzstyle{block}=[draw opacity=0.7,line width=1.4cm]
+\usetikzlibrary{arrows,positioning}
+%\PreviewEnvironment{tikzpicture}
+
+
+\def\ground{%
+    -- +(0mm,-4.0mm) {
+        [yshift=-4mm]
+        +(-2mm,0mm) -- +(2mm,0mm)
+                +(-1mm,-1mm) -- +(1mm,-1mm)
+                +(-0.3mm,-2mm) -- +(0.3mm,-2mm)
+        }
+}
+
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
             \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
 \title[Pesquisa Operacional - Problema da Corrente de Equilíbrio]
@@ -43,14 +58,46 @@
 \section{Modelagem}
   \subsection{O Problema}
   \begin{frame}[t]{Modelagem}
-    \begin{figure}[h!]
-      \centering
-        \includegraphics[width=0.4\textwidth]{img/problema1.jpg}
-    \end{figure}
-    \begin{figure}[h!]
-      \centering
-        \includegraphics[width=0.6\textwidth]{img/problema2.jpg}
-    \end{figure}
+
+\begin{circuitikz}[nodestyle/.style={circle,draw, fill=gray!50}, corrente/.style={very thick, shorten <= 4pt, shorten >= 4pt}, scale=0.95]
+
+% Nodos
+\foreach \pos / \nome in {
+  {(0,3)/1},  
+  {(2,6)/2},
+  {(2,0)/3},
+  {(8,6)/4},
+  {(8,0)/5},
+  {(10,3)/6},
+  {(5,3)/7}}
+  \node%[style={circle,draw, fill=gray!50}] 
+  [style=nodestyle]
+  (\nome) at \pos {$\nome$};
+
+% Resistores
+\foreach \from / \to in {2/3,2/7,2/4,5/3,5/7,5/4,3/7,4/7}
+   \draw (\from) node[style=nodestyle] {\from} to [R,l=$R_{\from\to}$] (\to) node[style=nodestyle] {\to};
+
+% Fios
+\foreach \from / \to in {1/2,1/3,4/6,5/6}
+   \draw (\from) node {\from} to (\to) node {\to};
+
+% Correntes
+\node[above=of 1] {10}
+      edge [corrente,->] (1);
+
+\node[above=of 6] {5}
+      edge [corrente,->] (6);
+
+\node[above=of 7] {15}
+      edge [corrente,<-] (7);
+
+% Terra
+\draw [thick] (7) \ground;
+
+
+\end{circuitikz}
+
   \end{frame}
 
   \begin{frame}[t]{O Problema}{Organizando os dados.}
