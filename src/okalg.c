@@ -9,8 +9,14 @@ typedef struct { double low, cap, cost, x; } a_data;
 #define node(v) ((v_data *)((v)->data))
 #define arc(a) ((a_data *)((a)->data))
 
-int main(void)
+int main(int argc, char *argv[])
 {
+	if (argc < 2)
+	{
+		puts("Digite o nome do arquivo a ser processado.");
+		exit(1);
+	}
+
 	glp_graph *G;
 	glp_vertex *v, *w;
 	glp_arc *a;
@@ -19,7 +25,7 @@ int main(void)
 	G = glp_create_graph(sizeof(v_data), sizeof(a_data));
 	glp_read_mincost(G, offsetof(v_data, rhs),
 		offsetof(a_data, low), offsetof(a_data, cap),
-		offsetof(a_data, cost), "book.min");
+		offsetof(a_data, cost), argv[1]);
 	ret = glp_mincost_okalg(G, offsetof(v_data, rhs),
 		offsetof(a_data, low), offsetof(a_data, cap),
 		offsetof(a_data, cost), &sol, offsetof(a_data, x),
