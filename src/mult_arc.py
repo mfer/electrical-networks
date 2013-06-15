@@ -31,8 +31,10 @@ for linha in entrada:
 
         for arco in xrange(mult):
             temp = linha.split()
-            cap = float(temp[-1])/mult
-            buflist.append(' '.join(temp[:-1]) + ' %d\n' % round(cap)) # Arredonda pra cima
+            cost = float(temp[-1])*(float(arco+1)/mult)
+            cap = float(temp[-2])/mult
+            buflist.append(\
+                ' '.join(temp[:-2]) + ' %d %d\n' % (round(cap), round(cost))) # Arredonda pra cima
             #buflist.append(' '.join(temp[:-1]) + ' %d\n' % cap) # Arredonda pra baixo
 
 
