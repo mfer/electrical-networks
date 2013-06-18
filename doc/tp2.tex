@@ -105,6 +105,20 @@
   \end{frame}
 
   \subsection{O Modelo}
+  \begin{frame}{Modelos}
+    Existe mais de uma forma de se resolver o este problema. Duas dessas formas serão desenvolvidas aqui:
+
+
+    \begin{enumerate}
+      \item
+        Modelagem como sistema linear
+      \item
+        Modelagem como fluxo em redes com custo convexo
+
+    \end{enumerate}
+
+
+  \end{frame}
 
   \begin{frame}[t]{Modelagem como sistema linear}
     \begin{itemize}
@@ -210,6 +224,62 @@
 
   
   \end{frame}
+
+  \begin{frame}{Linearização do custo convexo}
+      \begin{tabular}{cc}
+        Função $x^2$ & Segmentação linear \\
+        
+        \begin{tikzpicture}[scale=0.6]
+          \begin{axis}[
+              xlabel=$x_{ij}\longrightarrow $,
+              ylabel=$C_{ij}(x_{ij})\longrightarrow$]
+            \addplot[smooth,mark=*,black] plot coordinates {
+              (0,0)
+              (1,1)
+              (2,4)
+              (3,9)
+              (4,16)
+              (5,25)
+              (6,36)
+              (7,49)
+              (8,64)
+              (9,81)
+              (10,100)
+            };
+
+          \end{axis}
+        \end{tikzpicture}
+
+        &
+
+        \begin{tikzpicture}[scale=0.6]
+          \begin{axis}[
+              xlabel=$x_{ij}\longrightarrow$,
+              ylabel=$C_{ij}(x_{ij})\longrightarrow$]
+            \addplot[mark=*,blue] plot coordinates {
+              (0,0)
+              (1,1)
+              (2,4)
+              (3,9)
+              (4,16)
+              (5,25)
+              (6,36)
+              (7,49)
+              (8,64)
+              (9,81)
+              (10,100)
+
+            };
+          \end{axis}
+        \end{tikzpicture}
+            
+      \end{tabular}
+
+  
+  \end{frame}
+
+
+
   \begin{frame}{Linearização do custo convexo}
 
     
