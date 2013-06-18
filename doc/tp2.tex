@@ -449,157 +449,13 @@ Esta ordem faz com que F seja invertível
 
   \end{frame}
 
-%%   \begin{frame}{Forma matricial}
-%%     \begin{block}{cotas}
-%%     \begin{columns}
-%%       \column{.3\textwidth}
-%%       $A\colon$
-%%       \footnotesize
-%%       \begin{tabular}{ccc}
-%%         1 &   1 &    1  \\
-%%        -1 &   0 &    0  \\
-%%         1 &   0 &    0  \\
-%%         0 &   1 &    0  \\
-%%         0 &   0 &    1  \\
-%%         0 &   1 &   -4
-%%       \end{tabular}%
-%%       \column{.6\textwidth}
-%%       \begin{overprint}
-%%         Matriz de coeficientes
-%%       \end{overprint}
-%%     \end{columns}
-%%     \end{block}
 
-%%     \begin{block}{máximo}
-%%     \begin{columns}
-%%       \column{.3\textwidth}
-%%       $b\colon$
-%%       \footnotesize
-%%       \begin{tabular}{cccccc}
-%%         100 & -50 & 50 & 35 & 50 & 0
-%%       \end{tabular}
-%%       \column{.6\textwidth}
-%%       \begin{overprint}
-%%       \end{overprint}
-%%     \end{columns}
-%%     \end{block}
-
-%%     \begin{equation*}
-%%       Ax = b
-%%     \end{equation*}
-
-%%   \end{frame}
-
-%%   \begin{frame}[t]{Definições}
-%%     \begin{block}{Conjuntos}
-%%       electrical-networkss: $\{leiteP, queijo, iogurte\}$
-
-%%       Restricoes: $\{r1, r2, r3, r4,r5, r6\}$
-%%     \end{block}
-%%     \begin{block}{Variáveis}
-%%       producao: $\{electrical-networkss\}$
-%%     \end{block}
-%%     \begin{block}{Parâmetros}
-%%       lucro: $\{70, 104, 80\}$
-
-%%       cotas: $\{Restricoes, electrical-networkss\}$
-
-%%       maximo: $\{Restricoes\}$
-%%     \end{block}
-%%   \end{frame}
-
-%%   \begin{frame}[t]{Definições}
-%%     \begin{block}{Objetivo}
-%%       Maximizar:
-
-%%       $\sum_{j \in electrical-networkss} lucro[j] \times producao[j]$
-%%     \end{block}
-%%     \begin{block}{Restrições}
-%%       Sujeito a:
-
-%%       $cotas[i,j] \times producao[j] \leq maximo[i]$
-
-%%       $\{i \in Restricoes\}, \{j \in electrical-networkss\}$
-%%     \end{block}
-%%   \end{frame}
-
-%%   \begin{frame}{Afinal, qual a melhor escolha?}
-%%     Saberemos agora \dots
-%%   \end{frame}
-
-%%   \subsection{Modelo e dados}
-%%   \begin{frame}{electrical-networks.mod e electrical-networks.data}
-%%     \begin{figure}[h!]
-%%       \centering
-%%         %\includegraphics[width=1.0\textwidth]{img/glpsol.png}
-%%     \end{figure}
-%%   \end{frame}
-%%   \subsection{Solução}
-%%   \begin{frame}{electrical-networks.sol}
-%%     \tiny glpsol --model electrical-networks.mod --data electrical-networks.data --output electrical-networks.sol
-%%     \begin{figure}[h!]
-%%       \centering
-%%         %\includegraphics[width=0.9\textwidth]{img/glpsol2.png}
-%%     \end{figure}
-%%   \end{frame}
-
-%%   \subsection{Modelo e dados do Dual}
-
-%%   \begin{frame}{Modelo Primal}
-
-%%     \begin{equation*}
-%%      \textrm{Max.} Z = \sum_j^n c_jx_j \hspace{1.5cm} \textrm{sujeito a}
-%%     \end{equation*}
-
-%%     \begin{equation*}
-%%      \sum_{j=0}^n a_{ij}x_j \leq b_i  \hspace{1.5cm} (i = 1, 2, 3..., m)
-%%     \end{equation*}
-
-%%     \begin{equation*}
-%%      x_j \geq 0 \hspace{1.5cm} (j = 1, 2, 3..., n)
-%%     \end{equation*}
-
-%%   \end{frame}
-
-
-%%   \begin{frame}{Obtendo o dual}
-%%     \begin{itemize}[<+->]
-%%       \item
-%%         Função objetivo do primal é  maximização, então a do dual é minimização.
-
-%%       \item
-%%         Termos constantes das restrições do dual são os coeficientes da função objetiva do primal e vice-versa.
-
-%%       \item
-%%         O número de incógnitas do dual ($m$ valores de $y_i$) é igual ao número de restrições do primal.
-
-%%       \item
-%%         O número de restrições do dual é igual ao número de incógnitas do primal ($m$ valores de $x_j$).
-
-%%       \item
-%%         A matriz de coeficientes do dual é a transposta da matriz de coeficientes do primal.
-%%     \end{itemize}
-
-
-%%   \end{frame}
-
-%%   \begin{frame}{Modelo Dual}
-
-%%     \begin{equation*}
-%%      \textrm{Min.} D = \sum_i^m b_iy_j \hspace{1.5cm} \textrm{sujeito a}
-%%     \end{equation*}
-
-%%     \begin{equation*}
-%%      \sum_{i=0}^m a_{ij}y_i \geq c_j  \hspace{1.5cm} (j = 1, 2, 3..., n)
-%%     \end{equation*}
-
-%%     \begin{equation*}
-%%      y_i \geq 0 \hspace{1.5cm} (i = 1, 2, 3..., m)
-%%     \end{equation*}
-
-%%   \end{frame}
-
-
+\begin{frame}{Resultados}
+    \begin{figure}[h!]
+      \centering
+        \includegraphics[width=1.1\textwidth]{img/compara.png}
+    \end{figure}
+  \end{frame}
 
 \section{Conclusões}
   \begin{frame}
@@ -614,8 +470,6 @@ Esta ordem faz com que F seja invertível
         O equilíbrio está associado à condição de optimalidade do
         problema linear associado.
         
-      \item
-        Bla
 
    \end{itemize}
   \end{frame}
