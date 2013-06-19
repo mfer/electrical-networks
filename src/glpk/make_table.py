@@ -85,8 +85,10 @@ def main():
         for index in xrange(len(orig_costs)):
             costs.append(0)
 
-            for dummy2 in xrange(int(multiplicador)):
+            for dummy2 in xrange(int(multiplicador)):							  
                 costs[index] += int(arcs_costs[counter][2])
+                counter += 1
+                
             print '%s &' % costs[index],
         print '%.3f \\\\ \\hline' % ((t_fim - t_inicio)*1000)
         # for source, dest, cost, l in arcs_costs:
