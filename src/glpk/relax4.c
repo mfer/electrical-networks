@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
 	offsetof(a_data, rc));
 	
 	printf("ret = %d; sol = %5g\n", ret, sol);
+/*	
 	for (i = 1; i <= G->nv; i++)
 	{
 		v = G->v[i];
@@ -44,6 +45,7 @@ int main(int argc, char *argv[])
 			v->i, w->i, arc(a)->x, arc(a)->rc);
 		}
 	}
+*/
 	glp_delete_graph(G);
 	return 0;
 }

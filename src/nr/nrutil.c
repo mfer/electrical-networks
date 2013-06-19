@@ -15,12 +15,12 @@ void nrerror(char error_text[])
 	exit(1);
 }
 
-float *vector(long nl, long nh)
+double *vector(long nl, long nh)
 /* allocate a float vector with subscript range v[nl..nh] */
 {
-	float *v;
+	double *v;
 
-	v=(float *)malloc((size_t) ((nh-nl+1+NR_END)*sizeof(float)));
+	v=(double *)malloc((size_t) ((nh-nl+1+NR_END)*sizeof(double)));
 	if (!v) nrerror("allocation failure in vector()");
 	return v-nl+NR_END;
 }
@@ -215,7 +215,7 @@ float ***f3tensor(long nrl, long nrh, long ncl, long nch, long ndl, long ndh)
 	return t;
 }
 
-void free_vector(float *v, long nl, long nh)
+void free_vector(double *v, long nl, long nh)
 /* free a float vector allocated with vector() */
 {
 	free((FREE_ARG) (v+nl-NR_END));

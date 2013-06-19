@@ -5,4 +5,4 @@ B, and returns with the solution vector X. a, n, and indx are not modiﬁed by t
 and can be left in place for successive calls with diﬀerent right-hand sides b. This routine takes
 into account the possibility that b will begin with many zero elements, so it is eﬃcient for use
 in matrix inversion.*/
-void lubksb(float **a, int n, int *indx, float b[]);
+void lubksb(double **a, int n, int *indx, double b[]);
