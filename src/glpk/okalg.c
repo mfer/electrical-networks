@@ -3,6 +3,12 @@
 #include <stdlib.h>
 #include <glpk.h>
 
+/* dica de execução para filtrar arcos com correntes não nulas
+ * 
+ * ./okalg ../inputs/book_50_arc.min | grep -v "arc.*->.*: x =     0.*" | grep "arc"
+ * 
+ */
+
 typedef struct { double rhs, pi; } v_data;
 typedef struct { double low, cap, cost, x; } a_data;
 

@@ -7,12 +7,14 @@
 #include <stdio.h>
 #include "ludcmp.h"
 #include "lubksb.h"
+#define TINY 1.0e-20 //A small number.
 
 int main(int argc, char **argv) {	
 	FILE *arq;
   if (argc < 3)
   {
     puts("Numero insuficiente de argumentos. Saindo...");
+    printf("Uso: %s [input] [output]\n",argv[0]);
     exit(1);
   }
   arq = fopen(argv[1], "rb");
@@ -36,10 +38,10 @@ int main(int argc, char **argv) {
   //printf("%d %d\n",vertices,elos);
   
   
-  float **a,*b,d;
-	int i,j,**adj,*indx, n= vertices+1;	
+  float **a,**adj,*b,d;
+	int i,j,*indx, n= vertices+1;	
 	a = malloc (n*sizeof(float*));
-	adj = malloc (n*sizeof(int*));
+	adj = malloc (n*sizeof(float*));
   if(a == NULL || adj == NULL)
 	{
 		fprintf(stderr, "out of memory\n");
@@ -48,7 +50,7 @@ int main(int argc, char **argv) {
 	for(i = 0; i < n; i++)
 	{
 		a[i] = malloc (n*sizeof(float));
-		adj[i] = malloc (n*sizeof(int));
+		adj[i] = malloc (n*sizeof(float));
 		if(a[i] == NULL || adj[i] == NULL)
 		{
 			fprintf(stderr, "out of memory\n");
@@ -64,19 +66,20 @@ int main(int argc, char **argv) {
 		for(j=0;j<n;++j)
 		{
 		  a[i][j]=0.0;
-		  adj[i][j]=0;
+		  adj[i][j]=0.0;
 		}
 	}    
 	
   for(cont=0;cont<elos;++cont)
   {
 		fscanf(arq,"%d %d %f",&noi, &noj, &res);
-		//printf("%d %d %d\n",noi,noj,res);
-		a[noi][noi] = a[noi][noi] - 1.0 / res;
-		a[noj][noj] = a[noj][noj] - 1.0 / res;
+		//printf("%d %d %f\n",noi,noj,res);
+		if (res == 0.0) res = TINY;
+    a[noi][noi] = a[noi][noi] - 1.0 / res;
+	  a[noj][noj] = a[noj][noj] - 1.0 / res;
 		a[noi][noj] = a[noi][noj] + 1.0 / res;
 		adj[noi][noj]=res;
-		//printf("%f\n",a[noi][noj]);
+		//printf("%f\n",a[noi][noj]);		
 	}
   for(i=1;i<n;++i)
   	for(j=i+1;j<n;++j)
@@ -97,7 +100,7 @@ int main(int argc, char **argv) {
   {
   	for(j=1;j<n;++j)
   	{
-		  //printf("%f ",a[i][j]);
+		  //printf("%f ",adj[i][j]);
 		}
 		//printf(" - %f\n",b[i]);
 	} 
@@ -106,14 +109,14 @@ int main(int argc, char **argv) {
 
 	lubksb(a,vertices,indx,b);
 	
-	for(i=1;i<n;++i) printf("b[%d] = %f\n",i,b[i]);	
+	for(i=1;i<n;++i) fprintf(out,"%d %f\n",i,b[i]);	
 	
 	for(i=1;i<n;++i)
   {
   	for(j=1;j<n;++j)
   	{
-		  if(adj[i][j]!=0)
-		    printf("%d-%d : %f\n",j,i,(b[j]-b[i])/adj[i][j]);
+		  if(adj[i][j] != 0)
+		    fprintf(out,"%d %d %f\n",i,j,(b[j]-b[i])/adj[i][j]);
 		}
 	} 
 
