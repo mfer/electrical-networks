@@ -170,13 +170,13 @@
     Aproximação por segmentação:
     \begin{itemize}
       \item
-        Cada custo de arco $C_{ij}(x_{ij)}$ possui $p$ segmentos
+        Cada custo de arco $C_{ij}(x_{ij})$ possui $p$ segmentos
         lineares: $0 = d_{ij}^0 < d_{ij}^1 < d_{ij}^2 < d_{ij} < ...$,
         que denotam os pontos onde a função ``quebra''.
       \item
-        custo varia linearmente no intervalo $[d_{ij}{k-1},
+        custo varia linearmente no intervalo $[d_{ij}^{k-1},
           d_{ij}^k]$. Denotamos $c_{ij}^k$ como o coeficiente de custo
-        linear no intervalo $[d_{ij}{k-1}, d_{ij}^k]$.
+        linear no intervalo $[d_{ij}^{k-1}, d_{ij}^k]$.
       \item
         Sendo assim, para especificar o a função aproximada,
         precisamos especificar os segmentos e a inclinação da função
@@ -308,9 +308,9 @@ Arco original e arcos correspondentes na nova rede:
     (1) edge node {$C_{ij}(x_{ij})$} (2);
 
   %% \path[every node/.style={font=\sffamily\small}]
-  %%   (3) edge [bend left] node {$(c_{ij}^1d_{ij}^1 - d_{ij}^0)$} (4)
-  %%       edge node {$(c_{ij}^2d_{ij}^2 - d_{ij}^1)$} (4)
-  %%       edge [bend right] node {$(c_{ij}^nd_{ij}^n - d_{ij}^{n-1})$} (4);
+  %%   (3) edge [bend left] node {$(c_{ij}^1,0,d_{ij}^1 - d_{ij}^0)$} (4)
+  %%       edge node {$(c_{ij}^2,0,d_{ij}^2 - d_{ij}^1)$} (4)
+  %%       edge [bend right] node {$(c_{ij}^n,0,d_{ij}^n - d_{ij}^{n-1})$} (4);
 \end{tikzpicture}
 
 \centering
@@ -326,9 +326,9 @@ Arco original e arcos correspondentes na nova rede:
   %%   (1) edge node {$C_{ij}(x_{ij})$} (2);
 
   \path[every node/.style={font=\sffamily\small}]
-    (3) edge [bend left] node {$(c_{ij}^1d_{ij}^1 - d_{ij}^0)$} (4)
-        edge node {$(c_{ij}^2d_{ij}^2 - d_{ij}^1)$} (4)
-        edge [bend right] node {$(c_{ij}^nd_{ij}^n - d_{ij}^{n-1})$} (4);
+    (3) edge [bend left] node {$(c_{ij}^1,0,d_{ij}^1 - d_{ij}^0)$} (4)
+        edge node {$(c_{ij}^2,0,d_{ij}^2 - d_{ij}^1)$} (4)
+        edge [bend right] node {$(c_{ij}^n,0,d_{ij}^n - d_{ij}^{n-1})$} (4);
 \end{tikzpicture}
 
       %% \begin{tabular}{cc}
@@ -407,7 +407,6 @@ Arco original e arcos correspondentes na nova rede:
     \begin{itemize}[<+->]
       \item
         Em termos de $F[(i,j)]$ com $(i,j) \in A$, temos:
-      \item
     \begin{equation*}
       r_{ij} \longrightarrow H_{ab}
     \end{equation*}
