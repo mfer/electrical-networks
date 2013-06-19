@@ -155,7 +155,7 @@
     \end{equation*}
 
     \begin{equation*}
-     \sum_{j:(i,j) \in A} x_{ij} - \sum_{i:(j,i) \in A} x_{ji} = b(i) \hspace{1.5cm} \textrm{para cada nodo } i \in N,
+     \sum_{j:(i,j) \in A} x_{ij} - \sum_{i:(j,i) \in A} x_{ji} = b_{i} \hspace{1.5cm} \textrm{para cada nodo } i \in N,
     \end{equation*}
 
     \begin{equation*}
@@ -379,75 +379,66 @@ Arco original e arcos correspondentes na nova rede:
   \subsection{Resolução sistema quadrático}
 
   \begin{frame}{Sistema quadrático}
-
-    \begin{equation*}
-      F:A \longrightarrow I \subset \mathbb{N}
-    \end{equation*}
-
-    \begin{equation*}
-      F[(i,j)] = K
-    \end{equation*}
-
-    \begin{equation*}
-\textrm{Tal que }      (i_1, j_1) < (i_2, j_2) \longleftrightarrow F[(i_1, j_1)] < F[(i_2, j_2)]
-    \end{equation*}
-
-    \begin{equation*}
-\textrm{Sendo que } (a,b) < (c,d) \longleftrightarrow (a < c)  || ((a == c) \&\& (b < d))
-    \end{equation*}
-Esta ordem total faz com que F seja invertível.
-  \end{frame}
-    
-
-  \begin{frame}{Sistema quadrático}
-
-    \begin{equation*}
-      F:A \longrightarrow I \subset \mathbb{N}
-    \end{equation*}
-
-    \begin{equation*}
-      H_{ij} = 0 \hspace {1.5cm} i \neq j
-    \end{equation*}
-
-    \begin{equation*}
-      lb_i = 0 \forall i
-    \end{equation*}
-
-    \begin{equation*}
-      lb_i = \infty \forall i
-    \end{equation*}
-
-    \begin{equation*}
-      A_{i,F(i,j)} = 1 \hspace {1.5cm} \forall i,j : (i,j) \in A
-    \end{equation*}
-
-    \begin{equation*}
-      A_{i,F(i,j)} = -1 \hspace {1.5cm} \forall i,j : (j,i) \in A
-    \end{equation*}
-
-    \begin{equation*}
-      A_{i,j} = 0 \hspace {1.5cm} \textrm{Caso contrário}
-    \end{equation*}
-
+    \begin{itemize}[<+->]
+      \item
+        Problema 1: GLPK não resolve funções objetivo que não sejam lineares
+      \item
+        Solução: O GNU Octave tem um solver para programação linear quadrática
+      \item
+        Problema 2: GNU Octave não aceita GMPL
+      \item
+        Solução: Programa simples converte grafo de entrada para entrada do GNU Octave
+        
+    \end{itemize}
   \end{frame}
 
   \begin{frame}{Sistema quadrático}
+    \begin{itemize}[<+->]
+      \item
+        Para tornar as matrizes mais compactas, vamos usar uma representação baseada em arestas presentes no grafo
+      \item
+        Para tal, vamos definir um mapa $F:A \longrightarrow I \subset \mathbb{N}$ que mapeia arestas em números
+      \item
+        Definindo uma ordem total nas arestas e preservando a ordem por $F$ garante conversão e inversão fáceis
+    \end{itemize}
+  \end{frame}
 
+  \begin{frame}{Sistema quadrático}
+    \begin{itemize}[<+->]
+      \item
+        Em termos de $F[(i,j)]$ com $(i,j) \in A$, temos:
+      \item
     \begin{equation*}
-      b_1 = 10
+      r_{ij} \longrightarrow H_{ab}
+    \end{equation*}
+Tal que
+    \begin{equation*}
+      H_{ab} = 0 \hspace {1.5cm} a \neq b
     \end{equation*}
 
     \begin{equation*}
-      b_6 = 5
+      H_{F[(i,j)],F[(i,j)]} = r_{ij} \hspace {1.5cm} \textrm{caso contrário}
+    \end{equation*}
+      \item
+
+    \begin{equation*}
+      A_{i,F[(i,j)]} = 1 \hspace {1.5cm} \forall i,j : (i,j) \in A
     \end{equation*}
 
     \begin{equation*}
-      b_7 = -15
+      A_{i,F[(i,j)]} = -1 \hspace {1.5cm} \forall i,j : (j,i) \in A
     \end{equation*}
 
     \begin{equation*}
-      b_i = 0 \hspace {1.5cm} \textrm{Caso contrário}
+      A_{a,b} = 0 \hspace {1.5cm} \textrm{Caso contrário}
     \end{equation*}
+
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Sistema quadrático}
+
+    Tendo uma conversão organizada e codificada em um programa, podemos usar o GNU Octave para resolver o sistema quadrático.
 
   \end{frame}
 

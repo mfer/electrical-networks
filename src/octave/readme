@@ -1,1 +1,9 @@
-marzojr coloque aqui os passos para resolucao usando octave
+Para compilar:
+	g++ -O3 -s -o nr2octave nr2octave.cc
+
+Para converter:
+	./nr2octave nome-arquivo.nr > nome-arquivo.oct
+
+Para usar no solver:
+	octave -q nome-arquivo.oct > nome-arquivo.sol
+
