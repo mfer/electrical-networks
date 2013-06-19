@@ -4,23 +4,19 @@ import sys
 saida = None
 
 buflist = []
+corlist = []
+cor_count = 0
 
-if len(sys.argv) < 3:
-    print 'Uso: python %s <multiplicador> <entrada> [saida]' % sys.argv[0]
-elif len(sys.argv) == 4:
-    if sys.argv[2] == sys.argv[3]:
+if len(sys.argv) < 2:
+    print 'Uso: python %s <entrada> [saida]' % sys.argv[0]
+elif len(sys.argv) == 3:
+    if sys.argv[1] == sys.argv[2]:
         print 'Os arquivos de entrada e saída não podem ser os mesmos. Abortando.'
         sys.exit(1)
-    saida = open(sys.argv[3], 'w')
+    saida = open(sys.argv[2], 'w')
 
 try:
-    mult = int(sys.argv[1])
-except:
-    print 'O parâmetro <multiplicador> precisa ser um número inteiro.'
-    sys.exit(2)
-
-try:
-    entrada = open(sys.argv[2])
+    entrada = open(sys.argv[1])
 except:
     print 'Não foi possível abrir o arquivo de entrada.'
     sys.exit(3)
@@ -28,22 +24,22 @@ except:
 for linha in entrada:
     l = linha.strip()
     if l.startswith('a'):
-
-        for arco in xrange(mult):
-            temp = linha.split()
-            cost = float(temp[-1])*(float(arco+1)/mult)
-            cap = float(temp[-2])/mult
-            buflist.append(\
-                ' '.join(temp[:-2]) + ' %d %d\n' % (round(cap), round(cost))) # Arredonda pra cima
-            #buflist.append(' '.join(temp[:-1]) + ' %d\n' % cap) # Arredonda pra baixo
-
+        temp = linha.split()
+        if temp[-5] < temp[-4]:
+					  buflist.append(temp[-5]+' '+temp[-4]+' '+temp[-1]+'\n')
 
     elif l.startswith('p'):
         temp = linha.split()
-        num_arcos = int(temp[-1])*mult        
-        buflist.append(' '.join(temp[:-1]) + ' %d\n' % num_arcos)
-    else:
-        buflist.append(linha)
+        num_arcos = int(temp[-1])/2
+        buflist.append(temp[-2] + ' ' + str(num_arcos) + '\n')
+        
+    elif l.startswith('n'):
+        temp = linha.split()
+        cor_count = cor_count + 1
+        corlist.append(temp[-2] + ' ' + temp[-1] + '\n')
+
+corlist.insert(0,str(cor_count)+'\n')
+buflist = buflist + corlist
 
 if saida is None:
     sys.stdout.writelines(buflist)
