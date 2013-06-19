@@ -106,12 +106,14 @@
 
   \subsection{O Modelo}
   \begin{frame}{Modelos}
-    Existe mais de uma forma de se resolver o este problema. Duas dessas formas serão desenvolvidas aqui:
+    Existe mais de uma forma de se resolver o este problema. Três dessas formas serão mostradas aqui:
 
 
     \begin{enumerate}
       \item
         Modelagem como sistema de equações lineares.
+      \item
+        Modelagem com sistema quadrático
       \item
         Modelagem como fluxo em redes com custo convexo.
 
@@ -120,7 +122,7 @@
 
   \end{frame}
 
-  \begin{frame}[t]{Modelagem como sistema quadrático}
+  \begin{frame}[t]{Modelagem como sistema linear}
     \begin{itemize}
       \item
         Problema é resolvido introduzindo-se uma variável $x_{ij}$ representando o fluxo de corrente no arco($i$, $j$) do circuito elétrico e montar um sistema de equações de equilíbrio para estes fluxos. A solução para este sistema fornece a intensidade $x_{ij}$ para cada arco respectivo.
@@ -393,7 +395,7 @@ Arco original e arcos correspondentes na nova rede:
     \begin{equation*}
 \textrm{Sendo que } (a,b) < (c,d) \longleftrightarrow (a < c)  || ((a == c) \&\& (b < d))
     \end{equation*}
-Esta ordem faz com que F seja invertível
+Esta ordem total faz com que F seja invertível.
   \end{frame}
     
 
@@ -440,7 +442,7 @@ Esta ordem faz com que F seja invertível
     \end{equation*}
 
     \begin{equation*}
-      b > = -15
+      b_7 = -15
     \end{equation*}
 
     \begin{equation*}
@@ -448,6 +450,7 @@ Esta ordem faz com que F seja invertível
     \end{equation*}
 
   \end{frame}
+
 
   \subsection{Resolução Fluxo em Redes}
   \begin{frame}{Resolução Fluxo em Redes}
@@ -476,8 +479,9 @@ Esta ordem faz com que F seja invertível
         O equilíbrio está associado à condição de optimalidade do
         problema linear associado.
         
+    \end{itemize}
 
-   \end{itemize}
+
   \end{frame}
 
   \begin{frame}{Dúvidas}
