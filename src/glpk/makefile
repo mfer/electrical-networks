@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-lm -lglpk
 TP = okalg
-OBJ = $(TP).o /usr/local/lib/libglpk.a
+OBJ = $(TP).o 
 
 %.o: %.c
 	$(CC) -c -o $@ $< $(CFLAGS)

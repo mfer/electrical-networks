@@ -6,6 +6,7 @@ import time
 
 from mult_arc import mult_lines
 
+OKALG = 'okalg'
 
 def processa_okalg_output(entrada):
     """
@@ -25,8 +26,14 @@ def processa_okalg_output(entrada):
 
 
 def main():
+
+    okalg_path = os.path.dirname(os.path.realpath(__file__)) + '/' + OKALG
+    print okalg_path
+
     
     to_process = [1]
+
+
 
     if len(sys.argv) < 3:
         print 'Uso: python %s <entrada> <divisoes separadas por virgula.' % sys.argv[0]
@@ -48,7 +55,7 @@ def main():
     temp_file.writelines(orig_okalg)
     temp_file.flush()
 
-    orig_saida_okalg = os.popen('./okalg %s' % temp_file.name).readlines()
+    orig_saida_okalg = os.popen(okalg_path + ' %s' % temp_file.name).readlines()
     temp_file.close()
     del temp_file
 
@@ -69,7 +76,7 @@ def main():
         temp_file.writelines(new_okalg_lines)
         temp_file.flush()
         t_inicio = time.time()
-        saida_okalg = os.popen('./okalg %s' % temp_file.name).readlines()
+        saida_okalg = os.popen(okalg_path + ' %s' % temp_file.name).readlines()
         t_fim = time.time()
         arcs_costs = processa_okalg_output(saida_okalg)
         costs = []

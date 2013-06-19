@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 		offsetof(a_data, cost), &sol, offsetof(a_data, x),
 		offsetof(v_data, pi));
 	printf("ret = %d; sol = %5g\n", ret, sol);
-/*
+
 	for (i = 1; i <= G->nv; i++)
 	{ 
 		v = G->v[i];
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 				arc(a)->cost - (node(v)->pi - node(w)->pi));
 		}
 	}
-*/
+
 	glp_delete_graph(G);
 	return 0;
 }
