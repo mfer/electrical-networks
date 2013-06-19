@@ -28,9 +28,6 @@ def processa_okalg_output(entrada):
 def main():
 
     okalg_path = os.path.dirname(os.path.realpath(__file__)) + '/' + OKALG
-    print okalg_path
-
-    
     to_process = [1]
 
 
