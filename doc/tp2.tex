@@ -448,12 +448,50 @@ Tal que
     Tabela de segmentação dos fluxos
     \\
 
-
     \input{tabela1.tex}
+    
     %% \begin{figure}[h!]
     %%   \centering
     %%     \includegraphics[width=1.0\textwidth]{img/compara.png}
     %% \end{figure}
+  \end{frame}
+
+  \subsection{Minimização Quadrática - Octave}
+  \begin{frame}{Minimização Quadrática - Octave}
+    \centering
+		\scalebox{0.5} {
+		\begin {tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+		1->2 & 2->7 & 2->4 & 2->3 & 3->5 & 3->2 & 4->6 & 5->6 & 6->4 & 7->5 & tempo (ms)\\ \hline
+		50.000 &  50.000 &  8.333  & 41.667 &  8.333 &  41.667 &  25.000 & 33.333 & 25.000 & 33.333 & 245 \\ \hline
+
+		\end{tabular}
+		}
+  \end{frame}
+
+  \subsection{Sistema Linear - Numerical Recipes}
+  \begin{frame}{Sistema Linear - Numerical Recipes}
+    \centering
+		\scalebox{0.5} {
+		\begin {tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline
+			1->2 & 2->7 & 2->4 & 2->3 & 3->5 & 3->2 & 4->6 & 5->6 & 6->4 & 7->5 & tempo (ms)\\ \hline
+		  50.000 &  50.000 &  8.333  & 41.667 &  8.333 &  41.667 &  25.000 & 33.333 & 25.000 & 33.333 & 2 \\ \hline
+		\end{tabular}
+		}
+  \end{frame}
+
+  \subsection{netgen.c}
+  \begin{frame}{net genenerator Klingman - netgn151}
+    \centering
+		\scalebox{1.0} {
+		\begin {tabular}{|c|c|}
+		\hline
+			método & tempo (ms)\\ \hline
+			sistema linear &  4 \\ \hline
+		  octave &  86000 \\ \hline
+		\end{tabular}
+		}
   \end{frame}
 
 %http://en.wikibooks.org/wiki/GLPK/Modeling_tips  
