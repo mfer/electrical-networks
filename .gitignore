@@ -25,3 +25,5 @@
 
 src/glpk/okalg
 src/glpk/relax4
+
+*.pyc
