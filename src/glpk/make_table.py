@@ -104,22 +104,20 @@ def main():
 
     costs_mult = [[row[i] for row in mult_costs] for i in range(len(mult_costs[0]))]
     
-    print '\\scalebox{0.5} {'
+    print '\\scalebox{0.65} {'
     print '\\begin {tabular}{%s}' % ('|c' * (len(costs_mult[0])) + '|')
     print '\\hline'
-    print 'Segmento',
+    print 'Segmento &',
     print ' & '.join([('%s->%s' % (s[0], s[1])) for s in new_arcs]) + ' & tempo (ms)\\\\ \\hline'
     for linha in costs_mult:
-        print ' & '.join([str(s) for s in linha]) + '\\\\ \\hline'
-
-    print 
-    print '\\\\ \\hline'
-
+        print ' & '.join([str(s) for s in linha[:-1]]) + \
+            ' & %.3f' % (linha[-1]) + \
+            '\\\\ \\hline'
 
 
-    # print
-    # print '\\end{tabular}'         
-    # print '}'
+    print
+    print '\\end{tabular}'         
+    print '}'
          #     print 
              
 
