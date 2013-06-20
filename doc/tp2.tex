@@ -137,6 +137,10 @@
           $1^a$ Lei de Kirchhof $\longrightarrow I_1 = I_2 + I_3$
           
         \end{itemize}
+        
+        Sistema Ax=b, com 'número de nós' equações, em que a matriz A
+        representa a condutividade e o vetor independente b, o 
+        saldo de corrente.
 
     \end{itemize}
  
@@ -373,11 +377,51 @@ Arco original e arcos correspondentes na nova rede:
 
     \end{circuitikz}
   \end{frame}
-
-  \section{Resolução}
-
-  \subsection{Resolução sistema quadrático}
-
+  
+  \begin{frame}{Linearização do custo convexo}
+    \begin{itemize}[<+->]
+      \item
+        Após a linearização pode-se usar o GLPK
+      \item
+        Resolve-se o problema de custo mínimo
+      \item
+        Há duas opções: out-of-kilter (okalg) e relaxation4 (relax4)
+     
+    \end{itemize}
+  \end{frame}
+  
+  \begin{frame}{okalg}
+    \begin{itemize}[<+->]
+      \item
+        melhor primal-dual. 1960 Minty. 1961 Fulkerson. 1962 Ford-Fulkerson.
+      \item
+        ideia geral: similar ao caminho mínimo
+        kilter number: mínimo aumento ou decremento para satisfazer
+        restrições de fluxo e de viabilidade do dual
+        
+        iterativo até que todos os arcos estejam em 'ordem' (in kilter)
+      \item
+        pior caso: cubico com numero de arcos
+        
+      {\tiny fonte:http://www.derekroconnor.net/home/PAPERS/MMS-91.pdf}
+        
+    \end{itemize}
+  \end{frame}
+  
+  \begin{frame}{relax4}
+    \begin{itemize}[<+->]
+      \item
+        um dos mais eficientes para otimização em redes. 1985 Bertsekas. 1988 Bertsekas and Tseng.
+       \item
+        ideia geral: pseudoFlow, iteração baseada em aumento do fluxo e ajuste de 'preço' do dual.
+      \item
+        pior caso: pseudoPolinomial com numero de arcos
+        
+      {\tiny fonte:http://www.derekroconnor.net/home/PAPERS/MMS-91.pdf}
+        
+    \end{itemize}
+  \end{frame}
+  
   \begin{frame}{Sistema quadrático}
     \begin{itemize}[<+->]
       \item
@@ -441,77 +485,113 @@ Tal que
 
   \end{frame}
 
+\section{Resultados}
 
-  \subsection{Resolução Fluxo em Redes}
-  \begin{frame}{Resolução Fluxo em Redes}
+  \subsection{Rede Exemplo}
+    \begin{frame}{Problema Orginal levemente Modificado}
     \centering
-    Tabela de segmentação dos fluxos
-    \\
+    Assumindo resistências centenárias.
+    \begin{circuitikz}[nodestyle/.style={circle,draw, fill=gray!50}, corrente/.style={very thick, shorten <= 4pt, shorten >= 4pt}, scale=0.85]
 
-    \input{tabela1.tex}
-    
-    %% \begin{figure}[h!]
-    %%   \centering
-    %%     \includegraphics[width=1.0\textwidth]{img/compara.png}
-    %% \end{figure}
-  \end{frame}
+      % Nodos
+      \foreach \pos / \nome in {
+        {(0,3)/1},  
+        {(2,6)/2},
+        {(2,0)/3},
+        {(8,6)/4},
+        {(8,0)/5},
+        {(10,3)/6},
+        {(5,3)/7}}
+      \node[style=nodestyle]
+          (\nome) at \pos {$\nome$};
+          
+          % Resistores
+          \foreach \from / \to in {2/3,2/7,2/4,5/3,5/7,5/4,3/7,4/7}
+          \draw (\from) node[style=nodestyle] {\from} to [R,l=$R_{\from\to}$] (\to) node[style=nodestyle] {\to};
+          
+          % Fios
+          \foreach \from / \to in {1/2,1/3,4/6,5/6}
+          \draw (\from) node {\from} to (\to) node {\to};
+          
+          % Correntes
+          \node[above=of 1] {100}
+          edge [corrente,->] (1);
+          
+          \node[above=of 6] {50}
+          edge [corrente,->] (6);
+          
+          \node[above=of 7] {150}
+          edge [corrente,<-] (7);
+          
+          % Terra
+          \draw [thick] (7) \ground;
+          
+          
+    \end{circuitikz}
+		\end{frame}
+		      
+		\begin{frame}{Sistema Linear - Numerical Recipes}
+			\centering
+			\scalebox{0.6} {
+			\begin {tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+			\hline
+				1->2 & 2->7 & 2->4 & 2->3 & 3->5 & 3->2 & 4->6 & 5->6 & 6->4 & 7->5 & tempo (ms)\\ \hline
+				50.000 &  50.000 &  8.333  & 41.667 &  8.333 &  41.667 &  25.000 & 33.333 & 25.000 & 33.333 & 2 \\ \hline
+			\end{tabular}
+			}
+		\end{frame}
 
-  \subsection{Minimização Quadrática - Octave}
-  \begin{frame}{Minimização Quadrática - Octave}
-    \centering
-		\scalebox{0.6} {
-		\begin {tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
-		\hline
-		1->2 & 2->7 & 2->4 & 2->3 & 3->5 & 3->2 & 4->6 & 5->6 & 6->4 & 7->5 & tempo (ms)\\ \hline
-		50.000 &  50.000 &  8.333  & 41.667 &  8.333 &  41.667 &  25.000 & 33.333 & 25.000 & 33.333 & 245 \\ \hline
-
-		\end{tabular}
-		}
-  \end{frame}
-
-  \subsection{Sistema Linear - Numerical Recipes}
-  \begin{frame}{Sistema Linear - Numerical Recipes}
-    \centering
-		\scalebox{0.6} {
-		\begin {tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
-		\hline
+	  \begin{frame}{Minimização Quadrática - Octave}
+			\centering
+			\scalebox{0.6} {
+			\begin {tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+			\hline
 			1->2 & 2->7 & 2->4 & 2->3 & 3->5 & 3->2 & 4->6 & 5->6 & 6->4 & 7->5 & tempo (ms)\\ \hline
-		  50.000 &  50.000 &  8.333  & 41.667 &  8.333 &  41.667 &  25.000 & 33.333 & 25.000 & 33.333 & 2 \\ \hline
-		\end{tabular}
-		}
-  \end{frame}
+			50.000 &  50.000 &  8.333  & 41.667 &  8.333 &  41.667 &  25.000 & 33.333 & 25.000 & 33.333 & 245 \\ \hline
 
-  \subsection{netgen.c}
-  \begin{frame}{net genenerator Klingman }
+			\end{tabular}
+			}
+    \end{frame}
+		
+    \begin{frame}{Fluxo em Redes - Custo Mínimo - Out-of-Kilter - GLPK}
+			\centering
+			Tabela de segmentação dos fluxos
+			\\
+
+			\input{tabela1.tex}
+			
+			%% \begin{figure}[h!]
+			%%   \centering
+			%%     \includegraphics[width=1.0\textwidth]{img/compara.png}
+			%% \end{figure}
+    \end{frame}
+
+    \begin{frame}{Resumindo}
     \centering
+			\begin{figure}[h!]
+			  \centering
+			    \includegraphics[width=1.0\textwidth]{img/book.png}
+			\end{figure}
+		\end{frame}
 
-    netgn151
-
-		\scalebox{1.0} {
-		\begin {tabular}{|c|c|}
-		\hline
-			método & tempo (ms)\\ \hline
-			nr &  4 \\ \hline
-		  octave &  86000 \\ \hline
-		\end{tabular}
-		}
-                \\
-
-                netgn101
-                \\
-		\scalebox{1.0} {
-		\begin {tabular}{|c|c|}
-		\hline
-			método & tempo (s)\\ \hline
-			nr & 900  \\ \hline
-		  octave &  $\infty$ \\ \hline
-		\end{tabular}
-                %% \\
-                %% \\
-                %% Octave - arquivo de entrada excedeu um tamanho razoável.
-		}
-
-  \end{frame}
+  \subsection{Outras redes}
+    \begin{frame}{Usando o net genenerator Klingman }
+			\scalebox{1.0} {
+			\begin {tabular}{|c|c|c|c|c|c|c|}
+			\hline
+				amostra & octave & nr & okalg & relax4 & nós & arcos \\ \hline
+				book & 245 & 2 & 42 & 1 & 7 & 24 \\ \hline
+				151 & 86000 & 4 & 9 & 2        & 50 & 125  \\ \hline
+				101 & -* & 15min & 6291 & 101  & 5000 & 25000\\ \hline
+				108 & - & - & 13516 & 187 & 5000 & 50000 \\ \hline
+				109 & - & - & 19479 & 243 & 5000 & 75000 \\ \hline				
+			\end{tabular}
+			}
+			\\
+			\small{* Octave - arquivo de entrada excedeu um tamanho razoável.}
+			\\
+			\small{Tempo em (ms)}
+		\end{frame}
 
 %http://en.wikibooks.org/wiki/GLPK/Modeling_tips  
 %In terms of relative complexity, one user reports (April 2011) that, 
@@ -523,17 +603,22 @@ Tal que
     \frametitle<presentation>{Conclusões}
     \begin{itemize}[<+->]
       \item
+        O equilíbrio está associado à condição de optimalidade do
+        problema linear associado.
+      \item
         O algoritmo em redes é mais eficiente que a resolução em
         sistemas de equações lineares.         % Certo? Certo?!
         % Porque explora a modelagem em redes do problema, porém passa a ser menos geral.
-
       \item
-        O equilíbrio está associado à condição de optimalidade do
-        problema linear associado.
+        Uma vez encontrado um fator de escala,
+        o resultado inteiro é uma desvantagem aparente do método de custo mínimo.        
+        Recompensada pelo baixo custo computacional.
+      \item
+        Octave e nr não escalam. okalg é muito bom, no entanto o relax4
+        é o algoritmo atualmente a ser batido.
+
         
     \end{itemize}
-
-
   \end{frame}
 
   \begin{frame}{Dúvidas}
@@ -545,13 +630,13 @@ Tal que
 
 
 
-%%   \begin{frame}{}
-%%     Apresentação produzida usando
-%%     \begin{figure}[h!]
-%%       \centering
-%%         \includegraphics[width=0.5\textwidth]{img/latex.png}
-%%     \end{figure}
-%%     disponível em \href{https://github.com/mfer/electrical-networks}{goo.gl/1DtLf}
-%%   \end{frame}
+   \begin{frame}{}
+   Apresentação produzida usando
+     \begin{figure}[h!]
+       \centering
+         \includegraphics[width=0.5\textwidth]{img/latex.png}
+     \end{figure}
+     disponível em \href{https://github.com/mfer/electrical-networks}{goo.gl/1DtLf}
+   \end{frame}
 
 \end{document}
