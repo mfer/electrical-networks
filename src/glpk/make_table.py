@@ -57,14 +57,9 @@ def main():
     del temp_file
 
     orig_costs = processa_okalg_output(orig_saida_okalg)
-    print '\\scalebox{0.5} {'
-    print '\\begin {tabular}{%s}' % ('|c' * (len(orig_costs)+3) + '|')
-    print '\\hline'
-    print 'Segmento',
-    for source, dest, cost, l in orig_costs:
-        print '& %s-%s' % (source, dest),
-    print ' & tempo (ms)'
-    print '\\\\ \\hline'
+
+    arcos = [(i[0],i[1]) for i in orig_costs]
+    mult_costs = []
 
 
     for multiplicador in to_process:
@@ -78,24 +73,53 @@ def main():
         arcs_costs = processa_okalg_output(saida_okalg)
         costs = []
         counter = 0
-        print '%d &' % (multiplicador),
         for index in xrange(len(orig_costs)):
             costs.append(0)
 
             for dummy2 in xrange(int(multiplicador)):							  
                 costs[index] += int(arcs_costs[counter][2])
                 counter += 1
-                
-            print '%s &' % costs[index],
-        print '%.3f \\\\ \\hline' % ((t_fim - t_inicio)*1000)
+
+        #     print'%s &' % costs[index],
+        
+        costs.insert(0,multiplicador)
+        costs.append((t_fim - t_inicio)*1000)
+        mult_costs.append(costs)
         # for source, dest, cost, l in arcs_costs:
         #     costs.append(cost)
 
         # print costs
+    costs_mult = [[row[i] for row in mult_costs] for i in range(len(mult_costs[0]))]
+    mult_costs = []
 
-    print
-    print '\\end{tabular}'         
-    print '}'
+    counter = 0
+    new_arcs = []
+
+    mult_costs.append(costs_mult[0])
+    for index in xrange(1, len(costs_mult)-1 ):
+        if any(costs_mult[index]):
+            new_arcs.append(arcos[index])
+            mult_costs.append(costs_mult[index])
+    mult_costs.append(costs_mult[-1])
+
+    costs_mult = [[row[i] for row in mult_costs] for i in range(len(mult_costs[0]))]
+    
+    print '\\scalebox{0.5} {'
+    print '\\begin {tabular}{%s}' % ('|c' * (len(costs_mult[0])) + '|')
+    print '\\hline'
+    print 'Segmento',
+    print ' & '.join([('%s->%s' % (s[0], s[1])) for s in new_arcs]) + ' & tempo (ms)\\\\ \\hline'
+    for linha in costs_mult:
+        print ' & '.join([str(s) for s in linha]) + '\\\\ \\hline'
+
+    print 
+    print '\\\\ \\hline'
+
+
+
+    # print
+    # print '\\end{tabular}'         
+    # print '}'
          #     print 
              
 
