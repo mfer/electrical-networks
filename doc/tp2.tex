@@ -459,7 +459,7 @@ Tal que
   \subsection{Minimização Quadrática - Octave}
   \begin{frame}{Minimização Quadrática - Octave}
     \centering
-		\scalebox{0.5} {
+		\scalebox{0.6} {
 		\begin {tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
 		\hline
 		1->2 & 2->7 & 2->4 & 2->3 & 3->5 & 3->2 & 4->6 & 5->6 & 6->4 & 7->5 & tempo (ms)\\ \hline
@@ -472,7 +472,7 @@ Tal que
   \subsection{Sistema Linear - Numerical Recipes}
   \begin{frame}{Sistema Linear - Numerical Recipes}
     \centering
-		\scalebox{0.5} {
+		\scalebox{0.6} {
 		\begin {tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
 		\hline
 			1->2 & 2->7 & 2->4 & 2->3 & 3->5 & 3->2 & 4->6 & 5->6 & 6->4 & 7->5 & tempo (ms)\\ \hline
@@ -482,16 +482,35 @@ Tal que
   \end{frame}
 
   \subsection{netgen.c}
-  \begin{frame}{net genenerator Klingman - netgn151}
+  \begin{frame}{net genenerator Klingman }
     \centering
+
+    netgn151
+
 		\scalebox{1.0} {
 		\begin {tabular}{|c|c|}
 		\hline
 			método & tempo (ms)\\ \hline
-			sistema linear &  4 \\ \hline
+			nr &  4 \\ \hline
 		  octave &  86000 \\ \hline
 		\end{tabular}
 		}
+                \\
+
+                netgn101
+                \\
+		\scalebox{1.0} {
+		\begin {tabular}{|c|c|}
+		\hline
+			método & tempo (s)\\ \hline
+			nr & 900  \\ \hline
+		  octave &  $\infty$ \\ \hline
+		\end{tabular}
+                %% \\
+                %% \\
+                %% Octave - arquivo de entrada excedeu um tamanho razoável.
+		}
+
   \end{frame}
 
 %http://en.wikibooks.org/wiki/GLPK/Modeling_tips  
